@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+*.pyo
+.env
+.cache/
+reports/
+*.egg-info/
+dist/
+build/
+.DS_Store
+Thumbs.db
+data/prosint_graph.db
+.venv/

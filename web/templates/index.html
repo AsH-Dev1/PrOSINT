@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PrOSINT v2.0</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.css">
+<style>
+:root{--bg:#0a0e14;--surface:#12171d;--surface2:#1a2028;--border:#232b35;--text:#b8c5d4;--text-dim:#64748b;--accent:#3b9eff;--accent-dim:#1e4a7a;--green:#2ea043;--green-bg:#192b1d;--red:#da3633;--red-bg:#2d1b1b;--yellow:#d29922;--yellow-bg:#2b2416;--orange:#e36209}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;line-height:1.5}
+.app{display:flex;min-height:100vh}
+.sidebar{width:250px;background:var(--surface);border-right:1px solid var(--border);position:fixed;top:0;left:0;bottom:0;overflow-y:auto;z-index:10;padding:1rem 0}
+.sidebar h1{padding:0 1rem 1rem;font-size:1.2rem;color:var(--accent);border-bottom:1px solid var(--border);margin-bottom:.5rem}
+.sidebar h1 span{display:block;font-size:.7rem;color:var(--text-dim);font-weight:400}
+.nav-item{display:flex;align-items:center;gap:.6rem;padding:.55rem 1rem;color:var(--text-dim);cursor:pointer;font-size:.82rem;border:none;background:none;width:100%;text-align:left;transition:all .15s}
+.nav-item:hover{background:var(--surface2);color:var(--text)}
+.nav-item.active{background:var(--accent-dim);color:var(--accent)}
+.nav-sep{border-top:1px solid var(--border);margin:.5rem 0;opacity:.5}
+.main{margin-left:250px;flex:1;padding:1.5rem 2rem;max-width:1200px}
+.main-header{margin-bottom:1.5rem}
+.main-header h2{font-size:1.4rem;font-weight:600}
+.main-header p{color:var(--text-dim);font-size:.8rem}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:1.25rem;margin-bottom:.75rem}
+.input-row{display:flex;gap:.5rem;align-items:flex-end}
+.input-group{flex:1}
+.input-group label{display:block;font-size:.7rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.3rem}
+input[type=text],input[type=file]{width:100%;padding:.6rem .8rem;background:var(--bg);border:1px solid var(--border);border-radius:7px;color:var(--text);font-size:.85rem}
+input:focus{outline:none;border-color:var(--accent)}
+input[type=file]{cursor:pointer}
+input[type=file]::file-selector-button{background:var(--surface2);border:1px solid var(--border);color:var(--text);padding:.3rem .6rem;border-radius:5px;cursor:pointer;margin-right:.5rem;font-size:.78rem}
+.btn{padding:.6rem 1.2rem;border:none;border-radius:7px;cursor:pointer;font-size:.85rem;font-weight:500;transition:all .15s;white-space:nowrap}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:#4da2ff}
+.btn-sm{padding:.3rem .6rem;font-size:.75rem}
+.btn-outline{background:transparent;border:1px solid var(--border);color:var(--text);margin-right:.25rem}
+.results-container{display:none}
+.results-container.visible{display:block}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:.5rem;margin-bottom:1rem}
+.stat{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:.8rem;text-align:center}
+.stat-value{font-size:1.4rem;font-weight:700;color:var(--accent)}
+.stat-label{font-size:.68rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:.04em;margin-top:.15rem}
+.stat.danger .stat-value{color:var(--red)}.stat.warn .stat-value{color:var(--yellow)}.stat.success .stat-value{color:var(--green)}
+.result-card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem}
+.result-card-title{font-weight:600;color:var(--text);font-size:.9rem}
+.badge{display:inline-block;padding:.15rem .5rem;border-radius:12px;font-size:.68rem;font-weight:600;text-transform:uppercase;letter-spacing:.03em}
+.badge-danger{background:var(--red-bg);color:var(--red)}.badge-warn{background:var(--yellow-bg);color:var(--yellow)}.badge-success{background:var(--green-bg);color:var(--green)}.badge-info{background:var(--accent-dim);color:var(--accent)}
+.kv-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:.4rem}
+.kv-item{font-size:.78rem}.kv-key{color:var(--text-dim);font-size:.66rem;text-transform:uppercase;letter-spacing:.03em}.kv-value{color:var(--text);word-break:break-all}
+.kv-row{display:flex;justify-content:space-between;padding:.45rem 0;border-bottom:1px solid var(--border);font-size:.82rem}.kv-row:last-child{border-bottom:none}
+.profile-card{display:flex;align-items:flex-start;gap:.75rem;padding:.65rem;border:1px solid var(--border);border-radius:8px;margin-bottom:.4rem}.profile-card:hover{background:var(--surface2)}
+.profile-avatar{width:42px;height:42px;border-radius:50%;background:var(--accent-dim);display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:700;color:var(--accent);flex-shrink:0}
+.profile-avatar img{width:42px;height:42px;border-radius:50%;object-fit:cover}
+.profile-info{flex:1;min-width:0}.profile-platform{font-weight:600;font-size:.8rem}.profile-name{color:var(--text);font-size:.85rem}.profile-bio{color:var(--text-dim);font-size:.75rem;margin-top:.15rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.profile-location{color:var(--accent);font-size:.72rem}
+.profile-link{color:var(--accent);font-size:.75rem;text-decoration:none;float:right}
+.map-link{display:inline-flex;align-items:center;gap:.3rem;padding:.4rem .7rem;background:var(--accent-dim);color:var(--accent);border-radius:6px;text-decoration:none;font-size:.78rem;margin-top:.4rem}
+.tag{display:inline-block;padding:.12rem .45rem;background:var(--surface);border:1px solid var(--border);border-radius:4px;font-size:.7rem;color:var(--text-dim);margin:.12rem}
+.dork-result{border-left:3px solid var(--accent);padding:.6rem .8rem;margin-bottom:.3rem;background:var(--surface2);border-radius:0 6px 6px 0;font-size:.8rem}
+.breach-card{border-left:3px solid var(--red);padding:.6rem .8rem;margin-bottom:.4rem;background:var(--red-bg);border-radius:0 6px 6px 0}
+.skeleton{display:flex;flex-direction:column;gap:.6rem;padding:1rem}
+.skeleton-line{height:12px;background:var(--surface2);border-radius:4px;animation:pulse 1.5s infinite}.skeleton-line.w80{width:80%}.skeleton-line.w60{width:60%}.skeleton-line.w40{width:40%}
+@keyframes pulse{0%,100%{opacity:.4}50%{opacity:.8}}
+.toast{position:fixed;bottom:1.5rem;right:1.5rem;padding:.7rem 1rem;background:var(--surface);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:.8rem;box-shadow:0 4px 20px rgba(0,0,0,.4);z-index:100;animation:slideUp .3s ease}
+@keyframes slideUp{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+@media(max-width:768px){.sidebar{display:none}.main{margin-left:0;padding:1rem}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+<h1>PrOSINT <span>v2.0 Deep Hunter</span></h1>
+<button class="nav-item active" data-panel="dashboard"><span>&#9878;</span> Dashboard</button>
+<div class="nav-sep"></div>
+<button class="nav-item" data-panel="network"><span>&#127758;</span> Network</button>
+<button class="nav-item" data-panel="domain"><span>&#127760;</span> Domain</button>
+<button class="nav-item" data-panel="subdomain"><span>&#128269;</span> Subdomains</button>
+<button class="nav-item" data-panel="harvest"><span>&#127793;</span> Harvest</button>
+<div class="nav-sep"></div>
+<button class="nav-item" data-panel="email"><span>&#9993;</span> Email</button>
+<button class="nav-item" data-panel="username"><span>&#128100;</span> Username</button>
+<button class="nav-item" data-panel="search"><span>&#128270;</span> People Search</button>
+<button class="nav-item" data-panel="dorks"><span>&#128736;</span> Google Dorks</button>
+<button class="nav-item" data-panel="person"><span>&#128373;</span> Person</button>
+<button class="nav-item" data-panel="phone"><span>&#128222;</span> Phone</button>
+<div class="nav-sep"></div>
+<button class="nav-item" data-panel="leaks"><span>&#128308;</span> Leaks</button>
+<button class="nav-item" data-panel="pii"><span>&#128179;</span> PII Search</button>
+<button class="nav-item" data-panel="docs"><span>&#128196;</span> Documents</button>
+<button class="nav-item" data-panel="web"><span>&#128279;</span> Web</button>
+<button class="nav-item" data-panel="company"><span>&#127970;</span> Company</button>
+<button class="nav-item" data-panel="face"><span>&#128064;</span> Face</button>
+<button class="nav-item" data-panel="crypto"><span>&#128176;</span> Crypto</button>
+<button class="nav-item" data-panel="twitter"><span>&#128038;</span> Twitter</button>
+<button class="nav-item" data-panel="telegram"><span>&#9993;</span> Telegram</button>
+<button class="nav-item" data-panel="geoint"><span>&#127759;</span> GeoIntel</button>
+<button class="nav-item" data-panel="discord"><span>&#127918;</span> Discord</button>
+<button class="nav-item" data-panel="metadata"><span>&#128190;</span> Metadata</button>
+<div class="nav-sep"></div>
+<button class="nav-item" data-panel="investigate"><span>&#128270;</span> Auto-Investigate</button>
+<button class="nav-item" data-panel="graph"><span>&#128301;</span> Graph View</button>
+<button class="nav-item" data-panel="cases"><span>&#128451;</span> Cases</button>
+<div class="nav-sep"></div>
+<button class="nav-item" data-panel="settings"><span>&#9881;</span> Settings</button>
+</aside>
+
+<main class="main" id="main">
+<div class="main-header"><h2 id="panel-title">Dashboard</h2><p id="panel-desc">Quick search - auto-detect target type</p></div>
+
+<div class="card" id="form-card">
+<div id="form-dashboard" class="panel-form">
+<div class="input-row"><div class="input-group"><label>Quick Search (email, domain, IP, username or name)</label><input type="text" id="quick-target" placeholder="e.g. user@example.com or @nickname or John Smith"></div><button class="btn btn-primary" onclick="quickSearch()">Search</button></div>
+</div>
+<div id="form-network" class="panel-form" style="display:none"><div class="input-row"><div class="input-group"><label>IP Address</label><input type="text" id="network-target" placeholder="1.2.3.4"></div><button class="btn btn-primary" onclick="runModule('network')">Analyze</button></div><div style="margin-top:.5rem"><label style="font-size:.75rem"><input type="checkbox" id="network-ports"> Port scan</label></div></div>
+<div id="form-domain" class="panel-form" style="display:none"><div class="input-row"><div class="input-group"><label>Domain</label><input type="text" id="domain-target" placeholder="example.com"></div><button class="btn btn-primary" onclick="runModule('domain')">Investigate</button></div></div>
+<div id="form-subdomain" class="panel-form" style="display:none"><div class="input-row"><div class="input-group"><label>Domain</label><input type="text" id="subdomain-target" placeholder="example.com"></div><button class="btn btn-primary" onclick="runModule('subdomain')">Enumerate</button></div></div>
+<div id="form-harvest" class="panel-form" style="display:none"><div class="input-row"><div class="input-group"><label>Domain</label><input type="text" id="harvest-target" placeholder="example.com"></div><button class="btn btn-primary" onclick="runModule('harvest')">Harvest</button></div></div>
+<div id="form-email" class="panel-form" style="display:none"><div class="input-row"><div class="input-group"><label>Email Address</label><input type="text" id="email-target" placeholder="user@example.com"></div><button class="btn btn-primary" onclick="runModule('email')">Investigate</button></div><div style="margin-top:.5rem"><label style="font-size:.75rem"><input type="checkbox" id="email-accounts"> Linked accounts (GitHub, Gravatar, etc)</label></div></div>
+<div id="form-username" class="panel-form" style="display:none"><div class="input-row"><div class="input-group"><label>Username</label><input type="text" id="username-target" placeholder="@nickname"></div><button class="btn btn-primary" onclick="runModule('username')">Search</button></div></div>
+<div id="form-search" class="panel-form" style="display:none"><div class="input-row"><div class="input-group"><label>Full Name</label><input type="text" id="search-target" placeholder="John Smith"></div><button class="btn btn-primary" onclick="runModule('search')">Search</button></div></div>
+<div id="form-dorks" class="panel-form" style="display:none"><div class="input-row"><div class="input-group"><label>Target Name</label><input type="text" id="dorks-target" placeholder="John Smith"></div><button class="btn btn-primary" onclick="runModule('dorks')">Execute Dorks</button></div></div>
+<div id="form-person" class="panel-form" style="display:none"><div class="input-row"><div class="input-group"><label>Email</label><input type="text" id="person-email" placeholder="user@example.com"></div><div class="input-group"><label>Username (opt)</label><input type="text" id="person-username" placeholder="username"></div><button class="btn btn-primary" onclick="runModule('person')">Investigate</button></div></div>
+<div id="form-phone" class="panel-form" style="display:none"><div class="input-row"><div class="input-group"><label>Phone Number</label><input type="text" id="phone-target" placeholder="+34123456789"></div><button class="btn btn-primary" onclick="runModule('phone')">Analyze</button></div></div>
+<div id="form-leaks" class="panel-form" style="display:none"><div class="input-row"><div class="input-group"><label>Email or Username</label><input type="text" id="leaks-target" placeholder="user@example.com"></div><button class="btn btn-primary" onclick="runModule('leaks')">Search</button></div></div>
+<div id="form-pii" class="panel-form" style="display:none"><div class="input-row"><div class="input-group"><label>CURP / SSN / Phone / Email</label><input type="text" id="pii-target" placeholder="ABCD920101HDFRRR01"></div><button class="btn btn-primary" onclick="runModule('pii')">Reverse Search</button></div><div style="margin-top:.3rem"><span class="badge badge-warn">Auto-detect type</span> <span class="badge badge-info">Find linked data</span></div></div>
+<div id="form-docs" class="panel-form" style="display:none"><div class="input-row"><div class="input-group"><label>Search Query</label><input type="text" id="docs-target" placeholder="company or person name"></div><button class="btn btn-primary" onclick="runModule('docs')">Search</button></div></div>
+<div id="form-web" class="panel-form" style="display:none"><div class="input-row"><div class="input-group"><label>URL</label><input type="text" id="web-target" placeholder="https://example.com"></div><button class="btn btn-primary" onclick="runModule('web')">Analyze</button></div></div>
+<div id="form-face" class="panel-form" style="display:none"><div class="input-row"><div class="input-group"><label>Image File</label><input type="file" id="face-file" accept="image/*"></div><button class="btn btn-primary" onclick="runModule('face')">Search</button></div></div>
+<div id="form-company" class="panel-form" style="display:none"><div class="input-row"><div class="input-group"><label>Company Name</label><input type="text" id="company-target" placeholder="Acme Corp"></div><button class="btn btn-primary" onclick="runModule('company')">Search</button></div></div>
+<div id="form-crypto" class="panel-form" style="display:none"><div class="input-row"><div class="input-group"><label>BTC / ETH Address</label><input type="text" id="crypto-target" placeholder="1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa"></div><button class="btn btn-primary" onclick="runModule('crypto')">Lookup</button></div></div>
+<div id="form-twitter" class="panel-form" style="display:none"><div class="input-row"><div class="input-group"><label>Twitter/X Username</label><input type="text" id="twitter-target" placeholder="@username"></div><button class="btn btn-primary" onclick="runModule('twitter')">Lookup</button></div></div>
+<div id="form-telegram" class="panel-form" style="display:none"><div class="input-row"><div class="input-group"><label>Username or Phone</label><input type="text" id="telegram-target" placeholder="@username"></div><button class="btn btn-primary" onclick="runModule('telegram')">Lookup</button></div></div>
+<div id="form-geoint" class="panel-form" style="display:none"><div class="input-row"><div class="input-group"><label>IP, BSSID, or lat,lon</label><input type="text" id="geoint-target" placeholder="8.8.8.8 or AA:BB:CC:DD:EE:FF or 40.7,-74.0"></div><button class="btn btn-primary" onclick="runModule('geoint')">Locate</button></div></div>
+<div id="form-investigate" class="panel-form" style="display:none"><div class="input-row"><div class="input-group"><label>Any Target</label><input type="text" id="investigate-target" placeholder="user@example.com"></div><button class="btn btn-primary" onclick="runModule('investigate')">Investigate</button></div></div>
+<div id="form-graph" class="panel-form" style="display:none"><div class="input-row"><div class="input-group"><label>Case ID</label><input type="text" id="graph-target" placeholder="Case ID from Auto-Investigate"></div><button class="btn btn-primary" onclick="runModule('graph')">Load Graph</button></div></div>
+<div id="form-cases" class="panel-form" style="display:none"><button class="btn btn-primary" onclick="runModule('cases')" style="width:100%;padding:1rem">&#128451; Load All Cases</button></div>
+<div id="form-discord" class="panel-form" style="display:none"><div class="input-row"><div class="input-group"><label>Username</label><input type="text" id="discord-target" placeholder="username"></div><button class="btn btn-primary" onclick="runModule('discord')">Lookup</button></div></div>
+<div id="form-metadata" class="panel-form" style="display:none"><div class="input-row"><div class="input-group"><label>File</label><input type="file" id="metadata-file"></div><button class="btn btn-primary" onclick="runModule('metadata')">Extract</button></div></div>
+<div id="form-settings" class="panel-form" style="display:none"><div class="card" style="background:var(--surface2)"><div class="result-card-header">API Keys</div><div class="kv-row"><span>Shodan API Key</span><input type="text" id="settings-shodan" style="width:50%" placeholder="(from .env)"></div><div class="kv-row"><span>HIBP API Key</span><input type="text" id="settings-hibp" style="width:50%" placeholder="(from .env)"></div><button class="btn btn-primary" onclick="saveSettings()" style="margin-top:.5rem">Save</button></div></div>
+</div>
+
+<div id="results-container" class="results-container"><div id="results-content"></div></div>
+</main>
+</div>
+<script src="/static/app.js"></script>
+</body>
+</html>

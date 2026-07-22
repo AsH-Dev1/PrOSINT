@@ -1,0 +1,594 @@
+[
+  {
+    "name": "GitHub",
+    "url": "https://github.com/{username}",
+    "check_url": "https://api.github.com/users/{username}",
+    "api": true,
+    "profile_fields": {
+      "name": "name",
+      "bio": "bio",
+      "location": "location",
+      "company": "company",
+      "blog": "blog",
+      "twitter": "twitter_username",
+      "avatar": "avatar_url",
+      "public_repos": "public_repos",
+      "followers": "followers"
+    }
+  },
+  {
+    "name": "GitLab",
+    "url": "https://gitlab.com/{username}"
+  },
+  {
+    "name": "Bitbucket",
+    "url": "https://bitbucket.org/{username}/"
+  },
+  {
+    "name": "Instagram",
+    "url": "https://www.instagram.com/{username}/",
+    "headers": {
+      "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
+    }
+  },
+  {
+    "name": "Twitter / X",
+    "url": "https://x.com/{username}"
+  },
+  {
+    "name": "TikTok",
+    "url": "https://www.tiktok.com/@{username}"
+  },
+  {
+    "name": "YouTube",
+    "url": "https://www.youtube.com/@{username}"
+  },
+  {
+    "name": "Reddit",
+    "url": "https://www.reddit.com/user/{username}",
+    "check_url": "https://www.reddit.com/user/{username}/about.json",
+    "api": true,
+    "profile_fields": {
+      "name": "data/name",
+      "avatar": "data/icon_img",
+      "karma": "data/total_karma"
+    }
+  },
+  {
+    "name": "Twitch",
+    "url": "https://www.twitch.tv/{username}"
+  },
+  {
+    "name": "Telegram",
+    "url": "https://t.me/{username}"
+  },
+  {
+    "name": "Pinterest",
+    "url": "https://www.pinterest.com/{username}/"
+  },
+  {
+    "name": "LinkedIn",
+    "url": "https://www.linkedin.com/in/{username}/"
+  },
+  {
+    "name": "Facebook",
+    "url": "https://www.facebook.com/{username}"
+  },
+  {
+    "name": "Snapchat",
+    "url": "https://www.snapchat.com/add/{username}"
+  },
+  {
+    "name": "Medium",
+    "url": "https://medium.com/@{username}"
+  },
+  {
+    "name": "VK",
+    "url": "https://vk.com/{username}"
+  },
+  {
+    "name": "Tumblr",
+    "url": "https://{username}.tumblr.com"
+  },
+  {
+    "name": "Flickr",
+    "url": "https://www.flickr.com/people/{username}/"
+  },
+  {
+    "name": "Dribbble",
+    "url": "https://dribbble.com/{username}"
+  },
+  {
+    "name": "Behance",
+    "url": "https://www.behance.net/{username}"
+  },
+  {
+    "name": "DeviantArt",
+    "url": "https://www.deviantart.com/{username}"
+  },
+  {
+    "name": "SoundCloud",
+    "url": "https://soundcloud.com/{username}"
+  },
+  {
+    "name": "Vimeo",
+    "url": "https://vimeo.com/{username}"
+  },
+  {
+    "name": "Mastodon",
+    "url": "https://mastodon.social/@{username}"
+  },
+  {
+    "name": "Bluesky",
+    "url": "https://bsky.app/profile/{username}.bsky.social"
+  },
+  {
+    "name": "Spotify",
+    "url": "https://open.spotify.com/user/{username}"
+  },
+  {
+    "name": "DailyMotion",
+    "url": "https://www.dailymotion.com/{username}"
+  },
+  {
+    "name": "Rumble",
+    "url": "https://rumble.com/c/{username}"
+  },
+  {
+    "name": "Odysee",
+    "url": "https://odysee.com/@{username}"
+  },
+  {
+    "name": "Bitchute",
+    "url": "https://www.bitchute.com/channel/{username}/"
+  },
+  {
+    "name": "Mixcloud",
+    "url": "https://www.mixcloud.com/{username}/"
+  },
+  {
+    "name": "Last.fm",
+    "url": "https://www.last.fm/user/{username}"
+  },
+  {
+    "name": "Bandcamp",
+    "url": "https://{username}.bandcamp.com"
+  },
+  {
+    "name": "npm",
+    "url": "https://www.npmjs.com/~{username}"
+  },
+  {
+    "name": "PyPI",
+    "url": "https://pypi.org/user/{username}/"
+  },
+  {
+    "name": "Docker Hub",
+    "url": "https://hub.docker.com/u/{username}/",
+    "check_url": "https://hub.docker.com/v2/users/{username}/",
+    "api": true,
+    "profile_fields": {
+      "name": "full_name",
+      "location": "location",
+      "company": "company"
+    }
+  },
+  {
+    "name": "Hacker News",
+    "url": "https://news.ycombinator.com/user?id={username}"
+  },
+  {
+    "name": "Stack Overflow",
+    "url": "https://stackoverflow.com/users/{username}"
+  },
+  {
+    "name": "LeetCode",
+    "url": "https://leetcode.com/{username}/"
+  },
+  {
+    "name": "Dev.to",
+    "url": "https://dev.to/{username}",
+    "check_url": "https://dev.to/api/users/by_username?url={username}",
+    "api": true,
+    "profile_fields": {
+      "name": "name",
+      "bio": "summary",
+      "location": "location",
+      "twitter": "twitter_username",
+      "github": "github_username",
+      "avatar": "profile_image"
+    }
+  },
+  {
+    "name": "Hashnode",
+    "url": "https://hashnode.com/@{username}"
+  },
+  {
+    "name": "CodePen",
+    "url": "https://codepen.io/{username}"
+  },
+  {
+    "name": "Replit",
+    "url": "https://replit.com/@{username}"
+  },
+  {
+    "name": "Codecademy",
+    "url": "https://www.codecademy.com/profiles/{username}"
+  },
+  {
+    "name": "Codewars",
+    "url": "https://www.codewars.com/users/{username}"
+  },
+  {
+    "name": "HackerRank",
+    "url": "https://www.hackerrank.com/{username}"
+  },
+  {
+    "name": "CodeChef",
+    "url": "https://www.codechef.com/users/{username}"
+  },
+  {
+    "name": "Exercism",
+    "url": "https://exercism.org/profiles/{username}"
+  },
+  {
+    "name": "SourceForge",
+    "url": "https://sourceforge.net/u/{username}/"
+  },
+  {
+    "name": "Terraform Registry",
+    "url": "https://registry.terraform.io/users/{username}"
+  },
+  {
+    "name": "Steam",
+    "url": "https://steamcommunity.com/id/{username}"
+  },
+  {
+    "name": "Roblox",
+    "url": "https://www.roblox.com/users/profile?username={username}"
+  },
+  {
+    "name": "Chess.com",
+    "url": "https://www.chess.com/member/{username}"
+  },
+  {
+    "name": "Lichess",
+    "url": "https://lichess.org/@/{username}"
+  },
+  {
+    "name": "Fortnite Tracker",
+    "url": "https://fortnitetracker.com/profile/all/{username}"
+  },
+  {
+    "name": "Minecraft NameMC",
+    "url": "https://namemc.com/profile/{username}"
+  },
+  {
+    "name": "Epic Games",
+    "url": "https://store.epicgames.com/en-US/u/{username}"
+  },
+  {
+    "name": "Xbox Gamertag",
+    "url": "https://www.xboxgamertag.com/search/{username}"
+  },
+  {
+    "name": "PSN Profiles",
+    "url": "https://psnprofiles.com/{username}"
+  },
+  {
+    "name": "Speedrun",
+    "url": "https://www.speedrun.com/user/{username}"
+  },
+  {
+    "name": "Ubisoft",
+    "url": "https://ubisoftconnect.com/en-US/profile/{username}"
+  },
+  {
+    "name": "EA",
+    "url": "https://www.ea.com/ea-app/profile/{username}"
+  },
+  {
+    "name": "Nintendo Life",
+    "url": "https://www.nintendolife.com/users/{username}"
+  },
+  {
+    "name": "Itch.io",
+    "url": "https://itch.io/profile/{username}"
+  },
+  {
+    "name": "Game Jolt",
+    "url": "https://gamejolt.com/@{username}"
+  },
+  {
+    "name": "GOG",
+    "url": "https://www.gog.com/u/{username}"
+  },
+  {
+    "name": "Kongregate",
+    "url": "https://www.kongregate.com/accounts/{username}"
+  },
+  {
+    "name": "Facepunch",
+    "url": "https://facepunch.com/member.php?username={username}"
+  },
+  {
+    "name": "Weibo",
+    "url": "https://weibo.com/{username}"
+  },
+  {
+    "name": "Douyin",
+    "url": "https://www.douyin.com/user/{username}"
+  },
+  {
+    "name": "Zhihu",
+    "url": "https://www.zhihu.com/people/{username}"
+  },
+  {
+    "name": "Baidu Tieba",
+    "url": "https://tieba.baidu.com/home/main?un={username}"
+  },
+  {
+    "name": "Xiaohongshu (RED)",
+    "url": "https://www.xiaohongshu.com/user/profile/{username}"
+  },
+  {
+    "name": "Bilibili",
+    "url": "https://space.bilibili.com/{username}"
+  },
+  {
+    "name": "QQ",
+    "url": "https://user.qzone.qq.com/{username}"
+  },
+  {
+    "name": "Douban",
+    "url": "https://www.douban.com/people/{username}/"
+  },
+  {
+    "name": "Line",
+    "url": "https://line.me/ti/p/@{username}"
+  },
+  {
+    "name": "KakaoTalk",
+    "url": "https://open.kakao.com/o/{username}"
+  },
+  {
+    "name": "Naver",
+    "url": "https://blog.naver.com/{username}"
+  },
+  {
+    "name": "HackForums",
+    "url": "https://hackforums.net/member.php?username={username}"
+  },
+  {
+    "name": "Nulled",
+    "url": "https://www.nulled.to/user/{username}"
+  },
+  {
+    "name": "Cracked.io",
+    "url": "https://cracked.io/{username}"
+  },
+  {
+    "name": "XDA Developers",
+    "url": "https://forum.xda-developers.com/m/{username}"
+  },
+  {
+    "name": "Stack Exchange",
+    "url": "https://stackexchange.com/users/{username}"
+  },
+  {
+    "name": "Quora",
+    "url": "https://www.quora.com/profile/{username}"
+  },
+  {
+    "name": "Disqus",
+    "url": "https://disqus.com/by/{username}/"
+  },
+  {
+    "name": "Lobsters",
+    "url": "https://lobste.rs/u/{username}"
+  },
+  {
+    "name": "GDG Community",
+    "url": "https://gdg.community.dev/u/{username}"
+  },
+  {
+    "name": "HackerOne",
+    "url": "https://hackerone.com/{username}"
+  },
+  {
+    "name": "BugCrowd",
+    "url": "https://bugcrowd.com/{username}"
+  },
+  {
+    "name": "TryHackMe",
+    "url": "https://tryhackme.com/p/{username}"
+  },
+  {
+    "name": "Hack The Box",
+    "url": "https://app.hackthebox.com/profile/{username}"
+  },
+  {
+    "name": "CTFtime",
+    "url": "https://ctftime.org/user/{username}"
+  },
+  {
+    "name": "Keybase",
+    "url": "https://keybase.io/{username}"
+  },
+  {
+    "name": "VirusTotal",
+    "url": "https://www.virustotal.com/gui/user/{username}"
+  },
+  {
+    "name": "OnlyFans",
+    "url": "https://onlyfans.com/{username}"
+  },
+  {
+    "name": "Fansly",
+    "url": "https://fansly.com/{username}"
+  },
+  {
+    "name": "Pornhub",
+    "url": "https://www.pornhub.com/model/{username}"
+  },
+  {
+    "name": "XVideos",
+    "url": "https://www.xvideos.com/profiles/{username}"
+  },
+  {
+    "name": "Patreon",
+    "url": "https://www.patreon.com/{username}"
+  },
+  {
+    "name": "Substack",
+    "url": "https://{username}.substack.com"
+  },
+  {
+    "name": "WordPress",
+    "url": "https://{username}.wordpress.com"
+  },
+  {
+    "name": "Blogger",
+    "url": "https://{username}.blogspot.com"
+  },
+  {
+    "name": "LiveJournal",
+    "url": "https://{username}.livejournal.com"
+  },
+  {
+    "name": "Gravatar",
+    "url": "https://gravatar.com/{username}"
+  },
+  {
+    "name": "About.me",
+    "url": "https://about.me/{username}"
+  },
+  {
+    "name": "Linktree",
+    "url": "https://linktr.ee/{username}"
+  },
+  {
+    "name": "Buy Me a Coffee",
+    "url": "https://www.buymeacoffee.com/{username}"
+  },
+  {
+    "name": "Product Hunt",
+    "url": "https://www.producthunt.com/@{username}"
+  },
+  {
+    "name": "SlideShare",
+    "url": "https://www.slideshare.net/{username}"
+  },
+  {
+    "name": "Scribd",
+    "url": "https://www.scribd.com/{username}"
+  },
+  {
+    "name": "Goodreads",
+    "url": "https://www.goodreads.com/{username}"
+  },
+  {
+    "name": "Letterboxd",
+    "url": "https://letterboxd.com/{username}/"
+  },
+  {
+    "name": "Wikipedia",
+    "url": "https://en.wikipedia.org/wiki/User:{username}"
+  },
+  {
+    "name": "Academia.edu",
+    "url": "https://independent.academia.edu/{username}"
+  },
+  {
+    "name": "ResearchGate",
+    "url": "https://www.researchgate.net/profile/{username}"
+  },
+  {
+    "name": "ArtStation",
+    "url": "https://www.artstation.com/{username}"
+  },
+  {
+    "name": "Unsplash",
+    "url": "https://unsplash.com/@{username}"
+  },
+  {
+    "name": "Imgur",
+    "url": "https://imgur.com/user/{username}"
+  },
+  {
+    "name": "Pastebin",
+    "url": "https://pastebin.com/u/{username}"
+  },
+  {
+    "name": "TripAdvisor",
+    "url": "https://www.tripadvisor.com/Profile/{username}"
+  },
+  {
+    "name": "MyAnimeList",
+    "url": "https://myanimelist.net/profile/{username}"
+  },
+  {
+    "name": "AniList",
+    "url": "https://anilist.co/user/{username}/"
+  },
+  {
+    "name": "Trakt",
+    "url": "https://trakt.tv/users/{username}"
+  },
+  {
+    "name": "OpenSea",
+    "url": "https://opensea.io/{username}"
+  },
+  {
+    "name": "Rarible",
+    "url": "https://rarible.com/{username}"
+  },
+  {
+    "name": "Venmo",
+    "url": "https://account.venmo.com/u/{username}"
+  },
+  {
+    "name": "Cash App",
+    "url": "https://cash.app/${username}"
+  },
+  {
+    "name": "PayPal Me",
+    "url": "https://www.paypal.com/paypalme/{username}"
+  },
+  {
+    "name": "Ko-fi",
+    "url": "https://ko-fi.com/{username}"
+  },
+  {
+    "name": "Carrd",
+    "url": "https://{username}.carrd.co"
+  },
+  {
+    "name": "Bio.link",
+    "url": "https://bio.link/{username}"
+  },
+  {
+    "name": "IFTTT",
+    "url": "https://ifttt.com/p/{username}"
+  },
+  {
+    "name": "AngelList",
+    "url": "https://angel.co/u/{username}"
+  },
+  {
+    "name": "Crunchbase",
+    "url": "https://www.crunchbase.com/person/{username}"
+  },
+  {
+    "name": "HubPages",
+    "url": "https://hubpages.com/@/{username}"
+  },
+  {
+    "name": "DiscordMe",
+    "url": "https://discord.me/{username}"
+  },
+  {
+    "name": "DiscordLookup",
+    "url": "https://discordlookup.com/user/{username}"
+  }
+]
